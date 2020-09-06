@@ -11,6 +11,8 @@ import {
 } from "../src/firebase/firebase.utils";
 import { connect } from "react-redux";
 import { setCurrentUser } from "./redux/user/user.action";
+import { selectCurentUser } from "./redux/user/user.selector";
+import { createStructuredSelector } from "reselect";
 
 class App extends React.Component {
   unsubscribeFromAuth = null;
@@ -59,8 +61,8 @@ class App extends React.Component {
     );
   }
 }
-const mapStateTotProps = ({ user }) => ({
-  currentUser: user.currentUser,
+const mapStateTotProps = createStructuredSelector({
+  currentUser: selectCurentUser,
 });
 const mapDispathToProps = (dispatch) => ({
   setCurrentUser: (user) => dispatch(setCurrentUser(user)),
