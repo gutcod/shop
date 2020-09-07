@@ -13,3 +13,18 @@ export const addItemToCart = (cartItems, cartItemToAdd) => {
 
   return [...cartItems, { ...cartItemToAdd, quantity: 1 }];
 };
+
+export const removeItemFromCart = (cartItems, cartItemsToRemove) => {
+  const existingCartItem = cartItems.find(
+    (cartItem) => cartItem.id === cartItemsToRemove.id
+  );
+  if (existingCartItem.quantity === 1) {
+    return cartItems.filter((cartItem) => cartItem.id !== cartItemsToRemove.id);
+  }
+  return cartItems.map((cartItem) =>
+    cartItem.id === cartItemsToRemove.id
+      ? //...spread, quantti: xxx inseamna ca fac spread cu exceptia aprametrului quantity la care scad 1
+        { ...cartItem, quantity: cartItem.quantity - 1 }
+      : cartItem
+  );
+};
