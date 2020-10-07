@@ -9,12 +9,13 @@ import { toggleCartHidden } from "../../redux/cart/cart.action";
 import {
   CartDropdownButton,
   CartDropdownContainer,
+  CartItemsContainer,
   EmptyMessageContainer,
 } from "./cart.style";
 
 const CartDropdown = ({ cartItems, history, dispatch }) => (
   <CartDropdownContainer>
-    <CartItem>
+    <CartItemsContainer>
       {cartItems.length ? (
         cartItems.map((cartItem) => (
           <CartItem key={cartItem.id} item={cartItem} />
@@ -22,14 +23,14 @@ const CartDropdown = ({ cartItems, history, dispatch }) => (
       ) : (
         <EmptyMessageContainer>Your cart is empty</EmptyMessageContainer>
       )}
-    </CartItem>
+    </CartItemsContainer>
     <CartDropdownButton
       onClick={() => {
         history.push("/checkout");
         dispatch(toggleCartHidden());
       }}
     >
-      GO TO CHEKOUT
+      GO TO CHECKOUT
     </CartDropdownButton>
   </CartDropdownContainer>
 );
