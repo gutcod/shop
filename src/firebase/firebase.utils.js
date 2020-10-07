@@ -17,6 +17,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) return;
 
   const userRef = firestore.doc(`users/${userAuth.uid}`);
+
   const snapShop = await userRef.get();
 
   if (!snapShop.exists) {
@@ -38,6 +39,39 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 };
 
 firebase.initializeApp(config);
+
+// fucntion to add new collection, from app.js in commponentDidMout, uje Redux, selectCollectionForPreview from shopReducer
+export const addCollectionAndDocuments = async (
+  collectionKey,
+  objectsToAdd
+) => {
+  const collectionRef = firestore.collection(collectionKey);
+
+  const batch = firestore.batch();
+  objectsToAdd.forEach((obj) => {
+    const newDocRef = collectionRef.doc();
+    batch.set(newDocRef, obj);
+  });
+  await batch.commit();
+};
+//end
+
+export const convertCollectionSnapShotToMap = (collections) => {
+  const tranfsormedCollection = collections.docs.map((doc) => {
+    const { title, items } = doc.data();
+
+    return {
+      routeRame: encodeURI(title.toLowerCase()),
+      id: doc.id,
+      title,
+      items,
+    };
+  });
+  return tranfsormedCollection.reduce((accumulator, collection) => {
+    accumulator[collection.title.toLowerCase()] = collection;
+    return accumulator;
+  }, {});
+};
 
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
