@@ -1,9 +1,7 @@
 import { UPDATE_COLLECTION } from "./shop.type";
 
-const { default: SHOP_DATA } = require("./shop.data");
-
 const initialState = {
-  collections: SHOP_DATA,
+  collections: null,
 };
 
 const shopReducer = (state = initialState, action) => {
