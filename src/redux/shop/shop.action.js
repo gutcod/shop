@@ -2,7 +2,7 @@ import { convertCollectionSnapShotToMap, firestore } from "../../firebase/fireba
 import ShopActionTypes from "./shop.type";
 
 // nu avem nevoie de payload deoarece unica ce face schimba valoare boleana la isFetching
-export const fetchCollectionStart = () => ({
+export const fetchCollectionsStart = () => ({
   type: ShopActionTypes.FETCH_COLLECTION_START,
 });
 
@@ -19,7 +19,7 @@ export const fetchCollectionFailure = errorMessage => ({
 export const fetchCollectionsStartAsync = () => {
   return dispatch => {
     const collectionRef = firestore.collection("collections");
-    dispatch(fetchCollectionStart());
+    dispatch(fetchCollectionsStart());
 
     collectionRef
       .get()
