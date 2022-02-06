@@ -2,10 +2,9 @@ import React from "react";
 import { Route } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { fetchCollectionsStart } from "../../redux/shop/shop.action";
-
 import CollectionPageContainer from "../collection/collection.container";
 import CollectionsOverviewContainer from "../../components/collection-overview/collection-overview.container";
+import { fetchCollectionsStart } from "../../redux/shop/shop.action";
 
 class ShopPage extends React.Component {
   componentDidMount() {
