@@ -41,14 +41,11 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 firebase.initializeApp(config);
 
 // fucntion to add new collection, from app.js in commponentDidMout, uje Redux, selectCollectionForPreview from shopReducer
-export const addCollectionAndDocuments = async (
-  collectionKey,
-  objectsToAdd
-) => {
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
   const collectionRef = firestore.collection(collectionKey);
 
   const batch = firestore.batch();
-  objectsToAdd.forEach((obj) => {
+  objectsToAdd.forEach(obj => {
     const newDocRef = collectionRef.doc();
     batch.set(newDocRef, obj);
   });
@@ -56,8 +53,8 @@ export const addCollectionAndDocuments = async (
 };
 //end
 
-export const convertCollectionSnapShotToMap = (collections) => {
-  const tranfsormedCollection = collections.docs.map((doc) => {
+export const convertCollectionSnapShotToMap = collections => {
+  const tranfsormedCollection = collections.docs.map(doc => {
     const { title, items } = doc.data();
 
     return {
@@ -73,11 +70,20 @@ export const convertCollectionSnapShotToMap = (collections) => {
   }, {});
 };
 
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged(userAuth => {
+      unsubscribe();
+      resolve(userAuth);
+    }, reject);
+  });
+};
+
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
-const provider = new firebase.auth.GoogleAuthProvider();
-provider.setCustomParameters({ prompt: "select_account" });
-export const signInWithGoogle = () => auth.signInWithPopup(provider);
+export const googleProvider = new firebase.auth.GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: "select_account" });
+export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
 
 export default firebase;
