@@ -53,18 +53,19 @@ export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => 
 };
 //end
 
-export const convertCollectionSnapShotToMap = collections => {
-  const tranfsormedCollection = collections.docs.map(doc => {
+export const convertCollectionsSnapshotToMap = collections => {
+  const transformedCollection = collections.docs.map(doc => {
     const { title, items } = doc.data();
 
     return {
-      routeRame: encodeURI(title.toLowerCase()),
+      routeName: encodeURI(title.toLowerCase()),
       id: doc.id,
       title,
       items,
     };
   });
-  return tranfsormedCollection.reduce((accumulator, collection) => {
+
+  return transformedCollection.reduce((accumulator, collection) => {
     accumulator[collection.title.toLowerCase()] = collection;
     return accumulator;
   }, {});
