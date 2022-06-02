@@ -1,53 +1,32 @@
-import React, { useEffect } from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
-import HomePage from "./pages/homepage/homepage.component";
-import ShopPage from "./pages/shop/shop.component";
-import Header from "./components/header/header.component";
-import SingInAndSingOutPage from "./pages/sing-in-sign-out/sing-in-sign-out.component";
-import CheckoutPage from "./pages/checkout/chekcout.component";
+import { Routes, Route } from 'react-router-dom';
 
-import { selectCurentUser } from "./redux/user/user.selector";
-import { checkUserSession } from "./redux/user/user.action";
-import { useDispatch, useSelector } from "react-redux";
-
-import "./App.css";
+import Home from './routes/home/home.component';
+import Navigation from './routes/navigation/navigation.component';
+import Authentication from './routes/authentication/authentication.component';
+import Shop from './routes/shop/shop.component';
+import Checkout from './routes/checkout/checkout.component';
+import { checkUserSession } from './store/user/user.action';
 
 const App = () => {
-  const currentUser = useSelector(selectCurentUser);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(checkUserSession());
-  }, [dispatch]);
+  }, []);
 
   return (
-    <div>
-      <Header />
-      <Switch>
-        <Route exact path='/' component={HomePage} />
-        <Route path='/shop' component={ShopPage} />
-        <Route exact path='/checkout' component={CheckoutPage} />
-        <Route
-          exact
-          path='/signin'
-          render={() => (currentUser ? <Redirect to='/' /> : <SingInAndSingOutPage />)}
-        />
-      </Switch>
-    </div>
+    <Routes>
+      <Route path='/' element={<Navigation />}>
+        <Route index element={<Home />} />
+        <Route path='shop/*' element={<Shop />} />
+        <Route path='auth' element={<Authentication />} />
+        <Route path='checkout' element={<Checkout />} />
+      </Route>
+    </Routes>
   );
 };
-
-// const mapStateTotProps = createStructuredSelector({
-//   currentUser: selectCurentUser,
-// });
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     checkUserSession: () => {
-//       dispatch(checkUserSession());
-//     },
-//   };
-// };
 
 export default App;
