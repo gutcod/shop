@@ -70,7 +70,7 @@ export const addCollectionAndDocuments = async <T extends ObjectToAdd>(
 };
 
 export const getCategoriesAndDocuments = async (): Promise<Category[]> => {
-  const collectionRef = collection(db, "categories");
+  const collectionRef = collection(db, "collections");
   const q = query(collectionRef);
 
   const querySnapshot = await getDocs(q);
